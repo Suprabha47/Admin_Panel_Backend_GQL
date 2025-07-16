@@ -29,6 +29,7 @@ const userTypeDefs = gql`
       googleId: String!
       firstName: String
       lastName: String
+      email: String!
       photoUrl: String
     ): User
   }
