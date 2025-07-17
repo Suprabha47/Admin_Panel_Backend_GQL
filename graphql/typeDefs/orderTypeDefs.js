@@ -13,7 +13,11 @@ const orderTypeDefs = gql`
     price: Float!
     quantity: Int!
   }
-
+  input ItemInput {
+    itemName: String!
+    price: Float!
+    quantity: Int!
+  }
   type Address {
     fullName: String!
     address: String!
@@ -21,7 +25,13 @@ const orderTypeDefs = gql`
     pinCode: Int!
     country: String
   }
-
+  input AddressInput {
+    fullName: String!
+    address: String!
+    city: String!
+    pinCode: Int!
+    country: String
+  }
   type Order {
     id: ID!
     customer: Customer!
@@ -30,6 +40,28 @@ const orderTypeDefs = gql`
     status: OrderStatus!
     paymentMethod: String
     shippingAddress: Address!
+    createdAt: String
+  }
+
+  input OrderInput {
+    customerId: ID!
+    items: [ItemInput]!
+    totalAmount: Float!
+    status: OrderStatus!
+    paymentMethod: String
+    shippingAddress: AddressInput!
+    createdAt: String
+  }
+
+  type Query {
+    getOrder(id: ID!): Order
+    getAllOrders: [Order!]!
+  }
+
+  type Mutation {
+    createOrder(input: OrderInput!): Order
+    updateOrderStatus(id: ID!, status: OrderStatus!): Order
+    deleteOrder(id: ID!): String
   }
 `;
 

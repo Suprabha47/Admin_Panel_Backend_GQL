@@ -28,14 +28,15 @@ const OrderDataSchema = new Schema({
     required: true,
   },
   items: [itemSchema],
-  totalAmount: { type: Number, required: true },
+  totalAmount: { type: Number, default: 0, required: true },
   status: {
     type: String,
     required: true,
-    enum: ["Pending", "Shipped", "Delivered", "Cancelled"],
+    enum: ["PENDING", "SHIPPED", "DELIVERED", "CANCELLED"],
   },
   paymentMethod: { type: String, required: true },
   shippingAddress: addressSchema,
+  createdAt: { type: Date, default: Date.now },
 });
 
 module.exports = model("Order", OrderDataSchema);

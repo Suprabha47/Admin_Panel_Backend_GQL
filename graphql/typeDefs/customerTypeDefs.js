@@ -2,10 +2,24 @@ const { gql } = require("graphql-tag");
 
 const customerTypeDefs = gql`
   type Customer {
+    id: ID!
     customerName: String!
     customerEmailAddress: String!
-    isAdmin: Boolean!
-    orders: [Order]!
+    isAdmin: Boolean
+    orders: [Order!]!
+  }
+  input CustomerInput {
+    customerName: String!
+    customerEmailAddress: String!
+    isAdmin: Boolean
+  }
+  type Query {
+    getCustomer(id: ID!): Customer
+    getAllCustomers: [Customer!]!
+  }
+  type Mutation {
+    createCustomer(input: CustomerInput!): Customer
+    deleteCustomer(id: ID!): String
   }
 `;
 
