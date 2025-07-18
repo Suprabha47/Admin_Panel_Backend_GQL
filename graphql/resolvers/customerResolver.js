@@ -1,9 +1,13 @@
 const Customer = require("../../models/customerModel");
 
 const customerResolver = {
+  Customer: {
+    id: (parent) => parent._id.toString(),
+  },
   Query: {
-    getCustomer: async (_, { id }) => await Customer.findById(id),
-    getAllCustomers: async () => await Customer.find(),
+    getCustomer: async (_, { id }) =>
+      await Customer.findById(id).populate("orders"),
+    getAllCustomers: async () => await Customer.find().populate("orders"),
   },
   Mutation: {
     createCustomer: async (_, { input }) => {

@@ -5,12 +5,14 @@ const customerTypeDefs = gql`
     id: ID!
     customerName: String!
     customerEmailAddress: String!
+    location: String!
     isAdmin: Boolean
     orders: [Order!]!
   }
   input CustomerInput {
     customerName: String!
     customerEmailAddress: String!
+    location: String
     isAdmin: Boolean
   }
   type Query {

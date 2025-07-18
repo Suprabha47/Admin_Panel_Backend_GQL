@@ -10,6 +10,7 @@ const CustomerDataSchema = new Schema({
     unique: true,
     lowercase: true,
   },
+  location: { type: String, required: true },
   isAdmin: { type: Boolean, default: false },
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
 });

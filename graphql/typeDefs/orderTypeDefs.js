@@ -14,9 +14,9 @@ const orderTypeDefs = gql`
     quantity: Int!
   }
   input ItemInput {
-    itemName: String!
-    price: Float!
-    quantity: Int!
+    itemName: String
+    price: Float
+    quantity: Int
   }
   type Address {
     fullName: String!
@@ -35,7 +35,7 @@ const orderTypeDefs = gql`
   type Order {
     id: ID!
     customer: Customer!
-    items: [Item]!
+    items: [Item]
     totalAmount: Float!
     status: OrderStatus!
     paymentMethod: String
@@ -46,7 +46,6 @@ const orderTypeDefs = gql`
   input OrderInput {
     customerId: ID!
     items: [ItemInput]!
-    totalAmount: Float!
     status: OrderStatus!
     paymentMethod: String
     shippingAddress: AddressInput!

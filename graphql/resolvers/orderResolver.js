@@ -2,31 +2,36 @@ const Order = require("../../models/orderModel");
 const Customer = require("../../models/customerModel");
 
 const orderResolvers = {
+  Order: {
+    id: (parent) => parent._id.toString(),
+  },
   Query: {
     getOrder: async (_, { id }) => {
-      const order = await Order.findById(id).populate("customer");
+      const order = await Order.findById(id)
+        .populate("customer")
+        .populate("items");
       if (!order) throw new Error("No such order exists!");
       return order;
     },
-    getAllOrders: async () => await Order.find().populate("customer"),
+    getAllOrders: async () =>
+      await Order.find().populate("customer").populate("items"),
   },
   Mutation: {
     createOrder: async (_, { input }) => {
-      const {
-        customerId,
-        items,
-        totalAmount,
-        status,
-        paymentMethod,
-        shippingAddress,
-      } = input;
+      const { customerId, items, status, paymentMethod, shippingAddress } =
+        input;
 
       const customer = await Customer.findById(customerId);
       if (!customer) throw new Error("Customer not found!");
 
+      const totalAmount = items.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
+
       const newOrder = await Order.create({
         customer: customerId,
-        items,
+        items: Array.isArray(items) ? items : [],
         totalAmount,
         status,
         paymentMethod,
