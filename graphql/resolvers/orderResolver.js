@@ -15,6 +15,16 @@ const orderResolvers = {
     },
     getAllOrders: async () =>
       await Order.find().populate("customer").populate("items"),
+    getPaginatedOrders: async (_, { page = 1, limit = 5 }) => {
+      const skip = (page - 1) * limit;
+      const totalCount = await Order.countDocuments();
+      const totalPage = Math.ceil(totalCount / limit);
+      const orders = await Order.find()
+        .skip(skip)
+        .limit(limit)
+        .populate("customer");
+      return { orders, totalCount, totalPage, currentPage: page };
+    },
   },
   Mutation: {
     createOrder: async (_, { input }) => {

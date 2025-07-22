@@ -4,6 +4,13 @@ const productResolver = {
   Query: {
     getProduct: async (_, { id }) => await Product.findById(id),
     getAllProducts: async () => await Product.find(),
+    getPaginatedProducts: async (_, { page = 1, limit = 10 }) => {
+      const skip = (page - 1) * limit;
+      const totalCount = await Product.countDocuments();
+      const totalPage = Math.ceil(totalCount / limit);
+      const products = await Product.find().skip(skip).limit(limit);
+      return { products, totalCount, totalPage, currentPage: page };
+    },
   },
   Mutation: {
     createProduct: async (_, { input }) => {

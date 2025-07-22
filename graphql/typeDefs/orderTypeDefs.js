@@ -51,10 +51,17 @@ const orderTypeDefs = gql`
     shippingAddress: AddressInput!
     createdAt: String
   }
+  type PaginatedOrders {
+    orders: [Order!]!
+    totalCount: Int!
+    totalPage: Int!
+    currentPage: Int!
+  }
 
   type Query {
     getOrder(id: ID!): Order
     getAllOrders: [Order!]!
+    getPaginatedOrders(page: Int!, limit: Int!): PaginatedOrders
   }
 
   type Mutation {

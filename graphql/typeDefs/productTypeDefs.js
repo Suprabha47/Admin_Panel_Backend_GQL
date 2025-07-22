@@ -34,9 +34,17 @@ const productTypeDefs = gql`
     seoDescription: String
   }
 
+  type PaginatedProducts {
+    products: [Product!]!
+    totalCount: Int!
+    totalPage: Int!
+    currentPage: Int!
+  }
+
   type Query {
     getProduct(id: ID!): Product
     getAllProducts: [Product]
+    getPaginatedProducts(page: Int!, limit: Int!): PaginatedProducts!
   }
 
   type Mutation {
