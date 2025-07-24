@@ -11,12 +11,18 @@ const userTypeDefs = gql`
     photoUrl: String
   }
 
+  type AuthResponse {
+    user: User!
+    token: String!
+  }
+
   type Query {
     getUsers: [User]
+    getUserById(id: ID!): User!
   }
 
   type Mutation {
-    signIn(email: String!, password: String!): User
+    signIn(email: String!, password: String!): AuthResponse
 
     signUp(
       firstName: String!
@@ -31,7 +37,7 @@ const userTypeDefs = gql`
       lastName: String
       email: String!
       photoUrl: String
-    ): User
+    ): AuthResponse
   }
 `;
 

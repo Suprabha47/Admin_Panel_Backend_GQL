@@ -27,7 +27,8 @@ const orderResolvers = {
     },
   },
   Mutation: {
-    createOrder: async (_, { input }) => {
+    createOrder: async (_, { input }, context) => {
+      if (!context.user) throw new Error("Not authenticated!");
       const { customerId, items, status, paymentMethod, shippingAddress } =
         input;
 
@@ -52,14 +53,16 @@ const orderResolvers = {
 
       return await newOrder.populate("customer");
     },
-    updateOrderStatus: async (_, { id, status }) => {
+    updateOrderStatus: async (_, { id, status }, context) => {
+      if (!context.user) throw new Error("Not authenticated!");
       const order = await Order.findById(id);
       if (!order) throw new Error("This order doesn't exist!");
       order.status = status;
       await order.save();
       return await order.populate("customer");
     },
-    deleteOrder: async (_, { id }) => {
+    deleteOrder: async (_, { id }, context) => {
+      if (!context.user) throw new Error("Not authenticated!");
       const order = await Order.findById(id);
       if (!order) throw new Error("Order doesn't exist!");
       else await Order.findByIdAndDelete(id);

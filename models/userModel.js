@@ -11,7 +11,7 @@ const UserDataSchema = new Schema({
     match: /^\S+@\S+\.\S+$/,
     trim: true,
   },
-  password: { type: String },
+  password: { type: String, select: false },
   googleId: { type: String },
   photoUrl: { type: String },
 });

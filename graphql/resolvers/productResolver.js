@@ -13,17 +13,20 @@ const productResolver = {
     },
   },
   Mutation: {
-    createProduct: async (_, { input }) => {
+    createProduct: async (_, { input }, context) => {
+      if (!context.user) throw new Error("Not authenticated!");
       const { productName, productDescription } = input;
       const exists = await Product.findOne({ productName, productDescription });
       if (exists) throw new Error("Product already exists!");
       const newProduct = new Product(input);
       return await newProduct.save();
     },
-    updateProduct: async (_, { id, input }) => {
+    updateProduct: async (_, { id, input }, context) => {
+      if (!context.user) throw new Error("Not authenticated!");
       return await Product.findByIdAndUpdate(id, input, { new: true });
     },
-    deleteProduct: async (_, { id }) => {
+    deleteProduct: async (_, { id }, context) => {
+      if (!context.user) throw new Error("Not authenticated!");
       const exists = await Product.findById(id);
       if (!exists) throw new Error("No such product found");
       await Product.findByIdAndDelete(id);

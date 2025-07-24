@@ -10,7 +10,8 @@ const customerResolver = {
     getAllCustomers: async () => await Customer.find().populate("orders"),
   },
   Mutation: {
-    createCustomer: async (_, { input }) => {
+    createCustomer: async (_, { input }, context) => {
+      if (!context.user) throw new Error("Not Authenticated!");
       try {
         const { customerEmailAddress } = input;
         const exists = await Customer.findOne({ customerEmailAddress });
@@ -22,7 +23,8 @@ const customerResolver = {
         return err;
       }
     },
-    deleteCustomer: async (_, { id }) => {
+    deleteCustomer: async (_, { id }, context) => {
+      if (!context.user) throw new Error("Not Authenticated!");
       const exists = await Customer.findById(id);
       if (!exists) throw new Error("This customer doesn't exist.");
       await Customer.findByIdAndDelete(id);
