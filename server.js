@@ -10,12 +10,16 @@ require("dotenv").config();
 const getUserFromToken = async (token) => {
   try {
     if (!token) return null;
-    console.log("tokenn received? ", token);
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id);
-    console.log("user? ", user);
+
+    const user = await User.findById(decoded.id).select(
+      "-googleId -photoUrl -lastName"
+    );
+    // console.log("User fetched from DB: ", user);
     return user;
   } catch (err) {
+    console.error("Error in getUserFromToken:", err.message);
     return null;
   }
 };
@@ -27,15 +31,14 @@ const startServer = async () => {
     typeDefs,
     resolvers,
     cache: new InMemoryLRUCache(),
-    context: async ({ req }) => {
-      const token = req.headers?.authorization?.split(" ")[1]; // authorization: bearer token...
-      if (!token) return "Invalid Token!";
-      const user = await getUserFromToken(token);
-      return { user };
-    },
   });
 
   const { url } = await startStandaloneServer(server, {
+    context: async ({ req }) => {
+      const token = req.headers.authorization?.split(" ")[1];
+      const user = await getUserFromToken(token);
+      return { user };
+    },
     listen: { port: process.env.PORT || 3005 },
   });
   console.log("Server ready at port ", url);
