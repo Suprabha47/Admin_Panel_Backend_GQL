@@ -10,6 +10,8 @@ const customerTypeDefs = require("./typeDefs/customerTypeDefs");
 const orderTypeDefs = require("./typeDefs/orderTypeDefs");
 const customerResolver = require("./resolvers/customerResolver");
 const orderResolvers = require("./resolvers/orderResolver");
+const couponTypeDefs = require("./typeDefs/couponTypeDefs");
+const couponResolvers = require("./resolvers/couponResolver");
 
 const typeDefs = mergeTypeDefs([
   userTypeDefs,
@@ -17,6 +19,7 @@ const typeDefs = mergeTypeDefs([
   categoryTypeDefs,
   customerTypeDefs,
   orderTypeDefs,
+  couponTypeDefs,
 ]);
 const resolvers = mergeResolvers([
   userResolvers,
@@ -24,6 +27,7 @@ const resolvers = mergeResolvers([
   categoryResolvers,
   customerResolver,
   orderResolvers,
+  couponResolvers,
 ]);
 
 module.exports = { typeDefs, resolvers };

@@ -13,6 +13,7 @@ const userResolvers = {
       if (!exists) return "User doesn't exist!";
       return exists;
     },
+    getUserCount: async () => await User.countDocuments(),
   },
   Mutation: {
     signIn: async (_, { email, password }) => {

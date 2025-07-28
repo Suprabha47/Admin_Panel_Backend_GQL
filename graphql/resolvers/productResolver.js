@@ -11,6 +11,7 @@ const productResolver = {
       const products = await Product.find().skip(skip).limit(limit);
       return { products, totalCount, totalPage, currentPage: page };
     },
+    getProductCount: async () => await Product.countDocuments(),
   },
   Mutation: {
     createProduct: async (_, { input }, context) => {

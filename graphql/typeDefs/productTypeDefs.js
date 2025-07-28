@@ -45,6 +45,7 @@ const productTypeDefs = gql`
     getProduct(id: ID!): Product
     getAllProducts: [Product]
     getPaginatedProducts(page: Int!, limit: Int!): PaginatedProducts!
+    getProductCount: Int!
   }
 
   type Mutation {

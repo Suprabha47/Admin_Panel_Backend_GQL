@@ -8,6 +8,8 @@ const customerResolver = {
     getCustomer: async (_, { id }) =>
       await Customer.findById(id).populate("orders"),
     getAllCustomers: async () => await Customer.find().populate("orders"),
+    getCustomerCount: async () => await Customer.countDocuments(),
+    getTopCustomers: async () => {},
   },
   Mutation: {
     createCustomer: async (_, { input }, context) => {

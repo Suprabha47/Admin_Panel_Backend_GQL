@@ -18,6 +18,8 @@ const customerTypeDefs = gql`
   type Query {
     getCustomer(id: ID!): Customer
     getAllCustomers: [Customer!]!
+    getCustomerCount: Int!
+    getTopCustomers: Customer
   }
   type Mutation {
     createCustomer(input: CustomerInput!): Customer

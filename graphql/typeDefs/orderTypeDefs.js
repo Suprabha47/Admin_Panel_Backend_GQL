@@ -62,6 +62,8 @@ const orderTypeDefs = gql`
     getOrder(id: ID!): Order
     getAllOrders: [Order!]!
     getPaginatedOrders(page: Int!, limit: Int!): PaginatedOrders
+    getOrderCount: Int!
+    getOrderTotal: Float!
   }
 
   type Mutation {

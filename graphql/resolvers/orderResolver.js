@@ -25,6 +25,18 @@ const orderResolvers = {
         .populate("customer");
       return { orders, totalCount, totalPage, currentPage: page };
     },
+    getOrderCount: async () => await Order.countDocuments(),
+    getOrderTotal: async () => {
+      const totalAmtArray = await Order.find()
+        .select("totalAmount -_id")
+        .lean();
+
+      const totalAmt = totalAmtArray.reduce(
+        (total, current) => total + current.totalAmount,
+        0
+      );
+      return totalAmt;
+    },
   },
   Mutation: {
     createOrder: async (_, { input }, context) => {
