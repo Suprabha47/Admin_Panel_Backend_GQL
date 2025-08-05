@@ -8,18 +8,22 @@ const categoryResolver = {
   Mutation: {
     createCategory: async (_, args, context) => {
       if (!context.user) throw new Error("Not Authenticated!");
-      const { categoryName, categoryDescription } = args;
+      const { categoryName, categoryDescription, categoryImage } = args;
       const exists = await Category.findOne({ categoryName });
       if (exists) throw new Error("Category already exists!");
-      const newCategory = new Category({ categoryName, categoryDescription });
+      const newCategory = new Category({
+        categoryName,
+        categoryDescription,
+        categoryImage,
+      });
       return await newCategory.save();
     },
     updateCategory: async (_, args, context) => {
       if (!context.user) throw new Error("Not Authenticated!");
-      const { id, categoryName, categoryDescription } = args;
+      const { id, categoryName, categoryDescription, categoryImage } = args;
       return await Category.findByIdAndUpdate(
         id,
-        { categoryName, categoryDescription },
+        { categoryName, categoryDescription, categoryImage },
         { new: true }
       );
     },

@@ -5,6 +5,7 @@ const categoryTypeDefs = gql`
     id: ID!
     categoryName: String!
     categoryDescription: String
+    categoryImage: String
   }
 
   type Query {
@@ -13,12 +14,19 @@ const categoryTypeDefs = gql`
   }
 
   type Mutation {
-    createCategory(categoryName: String!, categoryDescription: String): Category
+    createCategory(
+      categoryName: String!
+      categoryDescription: String
+      categoryImage: String
+    ): Category
+
     updateCategory(
       id: ID!
       categoryName: String!
       categoryDescription: String
+      categoryImage: String
     ): Category
+
     deleteCategory(id: ID!): String
   }
 `;
